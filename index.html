@@ -18,11 +18,26 @@
     --ink:#0B2545;
     --ink-soft:#5B6B80;
     --hair:rgba(11,37,69,0.12);
+    --surface:#FFFFFF;
+    --mission-bg:#F1F4F0;
   }
+  html[data-theme="dark"]{
+    --white:#081A30;
+    --ink:#EAF0F6;
+    --ink-soft:#9FB0C2;
+    --hair:rgba(255,255,255,0.1);
+    --surface:#0F2745;
+    --mission-bg:#0B2038;
+  }
+  html[data-theme="dark"] .hero{background:#06141F;}
+  html[data-theme="dark"] .spotlight{background:linear-gradient(160deg, #06141F 0%, #0B2038 100%);}
+  html[data-theme="dark"] nav{background:rgba(6,20,31,0.88);}
+  html[data-theme="dark"] footer{background:#06141F;}
+  html[data-theme="dark"] .cta-inner{background:#06141F;}
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   html,body{margin:0;padding:0;}
-  body{background:var(--white);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body{background:var(--white);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s ease, color .3s ease;}
   h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600;margin:0;letter-spacing:-0.01em;}
   a{color:inherit;text-decoration:none;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
@@ -41,6 +56,13 @@
     transition:background .2s ease, color .2s ease, transform .2s ease;
   }
   .navcta:hover{background:var(--teal);color:#fff;transform:translateY(-1px);}
+  .navright{display:flex;align-items:center;gap:14px;}
+  .theme-toggle{
+    width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.04);color:#fff;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:border-color .2s ease, transform .2s ease;font-size:16px;
+  }
+  .theme-toggle:hover{border-color:var(--teal-bright);transform:translateY(-1px);}
 
   .hero{background:var(--navy);color:#fff;padding:120px 0 130px;position:relative;overflow:hidden;}
   .aurora{
@@ -123,22 +145,22 @@
   .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px;}
   @media (max-width:780px){.svc-grid{grid-template-columns:1fr;}}
   .svc-card{
-    background:#fff;border:1px solid var(--hair);border-radius:14px;padding:28px 26px;
-    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:28px 26px;
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease, background .3s ease;
   }
   .svc-card:hover{border-color:var(--teal);transform:translateY(-4px);box-shadow:0 14px 32px rgba(11,37,69,0.08);}
   .svc-num{font-size:12px;color:var(--teal);font-weight:600;letter-spacing:0.08em;margin-bottom:14px;}
   .svc-card h4{font-family:'Playfair Display',serif;font-size:19px;color:var(--navy);margin-bottom:10px;font-weight:600;}
   .svc-card p{font-size:14px;line-height:1.6;color:var(--ink-soft);margin:0;}
 
-  .mission{background:#F1F4F0;}
+  .mission{background:var(--mission-bg);transition:background .3s ease;}
   .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
   @media (max-width:760px){.mission-grid{grid-template-columns:1fr;}}
-  .m-card{background:#fff;border-radius:16px;padding:36px 32px;border:1px solid var(--hair);}
+  .m-card{background:var(--surface);border-radius:16px;padding:36px 32px;border:1px solid var(--hair);transition:background .3s ease;}
   .m-card h3{font-size:21px;color:var(--navy);margin-bottom:14px;}
   .m-card p{font-size:14.5px;line-height:1.7;color:var(--ink-soft);}
 
-  .cta{background:#fff;}
+  .cta{background:var(--white);transition:background .3s ease;}
   .cta-inner{
     background:var(--navy);border-radius:20px;padding:60px;display:flex;justify-content:space-between;
     align-items:center;gap:36px;flex-wrap:wrap;position:relative;overflow:hidden;
@@ -171,7 +193,10 @@
       <div class="mark">K</div>
       <div class="brand-name">Kulan Group</div>
     </div>
-    <a href="#contact" class="navcta">Get in touch</a>
+    <div class="navright">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+      <a href="#contact" class="navcta">Get in touch</a>
+    </div>
   </div>
 </nav>
 
@@ -296,6 +321,18 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.15 });
   targets.forEach(t => io.observe(t));
+
+  const toggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('kulan-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initial = saved || (prefersDark ? 'dark' : 'light');
+  if (initial === 'dark') { root.setAttribute('data-theme', 'dark'); toggle.textContent = '☀'; }
+  toggle.addEventListener('click', () => {
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    if (isDark) { root.removeAttribute('data-theme'); toggle.textContent = '🌙'; localStorage.setItem('kulan-theme', 'light'); }
+    else { root.setAttribute('data-theme', 'dark'); toggle.textContent = '☀'; localStorage.setItem('kulan-theme', 'dark'); }
+  });
 </script>
 </body>
 </html>
