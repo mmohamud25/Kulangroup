@@ -20,6 +20,7 @@
     --hair:rgba(11,37,69,0.12);
     --surface:#FFFFFF;
     --mission-bg:#F1F4F0;
+    --heading:#0B2545;
   }
   html[data-theme="dark"]{
     --white:#081A30;
@@ -28,6 +29,7 @@
     --hair:rgba(255,255,255,0.1);
     --surface:#0F2745;
     --mission-bg:#0B2038;
+    --heading:#F2F6FA;
   }
   html[data-theme="dark"] .hero{background:#06141F;}
   html[data-theme="dark"] .spotlight{background:linear-gradient(160deg, #06141F 0%, #0B2038 100%);}
@@ -106,7 +108,7 @@
   section{padding:96px 0;}
   .section-head{margin-bottom:48px;max-width:600px;}
   .eyebrow-light{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;font-weight:500;}
-  .section-head h2{font-size:32px;color:var(--navy);line-height:1.2;}
+  .section-head h2{font-size:32px;color:var(--heading);line-height:1.2;transition:color .3s ease;}
   .section-head p{font-size:15.5px;color:var(--ink-soft);line-height:1.65;margin-top:14px;}
 
   .spotlight{
@@ -150,14 +152,14 @@
   }
   .svc-card:hover{border-color:var(--teal);transform:translateY(-4px);box-shadow:0 14px 32px rgba(11,37,69,0.08);}
   .svc-num{font-size:12px;color:var(--teal);font-weight:600;letter-spacing:0.08em;margin-bottom:14px;}
-  .svc-card h4{font-family:'Playfair Display',serif;font-size:19px;color:var(--navy);margin-bottom:10px;font-weight:600;}
+  .svc-card h4{font-family:'Playfair Display',serif;font-size:19px;color:var(--heading);margin-bottom:10px;font-weight:600;transition:color .3s ease;}
   .svc-card p{font-size:14px;line-height:1.6;color:var(--ink-soft);margin:0;}
 
   .mission{background:var(--mission-bg);transition:background .3s ease;}
   .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
   @media (max-width:760px){.mission-grid{grid-template-columns:1fr;}}
   .m-card{background:var(--surface);border-radius:16px;padding:36px 32px;border:1px solid var(--hair);transition:background .3s ease;}
-  .m-card h3{font-size:21px;color:var(--navy);margin-bottom:14px;}
+  .m-card h3{font-size:21px;color:var(--heading);margin-bottom:14px;transition:color .3s ease;}
   .m-card p{font-size:14.5px;line-height:1.7;color:var(--ink-soft);}
 
   .cta{background:var(--white);transition:background .3s ease;}
